@@ -28,7 +28,7 @@ const inicialState = {
 	    questions: [
 	      {
 	        question: 'What is Example?',
-	        answer: 'A way to show how it is the shape'
+	        answer: 'A way to show how the hand come'
 	      },
 	      {
 	        question: 'Where do you make new decks like this?',

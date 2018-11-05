@@ -109,9 +109,11 @@ class AddDeck extends Component {
       // Update redux
       //guarda la nueva entrada en el ReduxStore
       dispatch(addEntry({
-        [value] : {
-          title: value,
-          questions: [{}]          
+        decks: {
+          [value] : {
+            title: value,
+            questions: [{}]          
+          }
         }
       }))
 

@@ -62,6 +62,9 @@ class DeckList extends Component {
 	// 			})}
 	
 	render() {
+console.log('this.props',this.props)		
+		const { getDecks } = this.props
+console.log('getDecks at DeckList', getDecks)
 //FIXME
 		// if (!isEmpty(this.state) && this.state.decks) {
 		if (!isEmpty(this.state) ) {
@@ -204,12 +207,12 @@ console.log('mapStateToProps entries',entries)
   }
 }
 
-// function mapDispatchToProps (dispatch) {
-//   return {
-//     getDecks: dispatch(recieveDecks())
-//   }
-// }
+function mapDispatchToProps (dispatch) {
+  return {
+    getDecks: dispatch(recieveDecks())
+  }
+}
 
-export default connect(mapStateToProps)(DeckList)
-// export default connect(mapStateToProps,mapDispatchToProps)(DeckList)
+// export default connect(mapStateToProps)(DeckList)
+export default connect(mapStateToProps,mapDispatchToProps)(DeckList)
 // export default DeckList
