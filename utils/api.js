@@ -7,12 +7,13 @@ export function submitDeckTitle ({ value }) {
 	let newDeckToAdd = {
     [value] : {
       title: value,
-      questions: [{}]          
+      questions: [{}]
     }
  	}
  	console.log('at API submitDeckTitle', newDeckToAdd)
-	return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(newDeckToAdd), () => { 
-			AsyncStorage.getItem('FlashCards:deck', (err, result) => { console.log(result) }) 
+	return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(newDeckToAdd), () => {
+			AsyncStorage.getItem('FlashCards:deck', (err, result) => {
+				console.log('API.js AsyncStorage.getItem',result) }) 
 		})
 }
 
