@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native'
-import { white, purple } from '../utils/colors' 
 import t from 'tcomb-form-native'
+import { white, purple } from '../utils/colors' 
 
 function SubmitBtn ({ onPress }) {
 	return (
@@ -23,7 +23,7 @@ class AddCard extends Component {
 		// save to 'DB'
 		// Clear local notification
 	}
-  
+
 
 	render() {
 		return (
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     color: white,
     fontSize: 22,
     textAlign: 'center',
-  },	
+  },
 })
 
 export default AddCard

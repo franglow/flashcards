@@ -8,7 +8,7 @@ import {
 	} from 'react-native'
 import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
-
+import { NavigationActions } from 'react-navigation'
 import { submitDeckTitle, getDecks } from '../utils/api'
 import { addEntry, recieveDecks } from '../actions'
 
@@ -65,7 +65,13 @@ class AddDeck extends Component {
       })
 			// Update AsyncStorage
 			submitDeckTitle({value})
+
+			this.toHome()
     }
+  }
+
+	toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({key: 'AddDeck'}))
   }
 
 	render() {

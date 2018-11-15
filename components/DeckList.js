@@ -12,7 +12,7 @@ import { AsyncStorage,
 import { getCardsMetaInfo } from '../utils/helpers'
 import { recieveDecks } from '../actions'
 import { submitDeckTitle, getDecks } from '../utils/api'
-import ShowDecksList from './ShowDecksList'
+import ShowDecksOnList from './ShowDecksOnList'
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -50,12 +50,15 @@ class DeckList extends Component {
 	* a traves de la property data del componente FlatList.
 	*/
 	_getItem = ({item}) => (
-		<ShowDecksList
-			deck={item}
-		/>
+		<TouchableOpacity onPress={() => this.props.navigation.navigate(
+				'DeckView',{item}
+		)}>
+			<ShowDecksOnList deck={item} />
+		</TouchableOpacity>
   )
 
 	render() {
+console.log('DeckList render this.props', this.props)
 		const { getDecks, entries } = this.props
 		return (
 			<View style={styles.container}>
@@ -98,20 +101,6 @@ const styles = StyleSheet.create({
   }
 })
 
-function Deck ({ deck, cards }) {
-	return (
-		<View style={styles.row}>
-			<Text style={styles.headerText}>
-				{deck}
-			</Text>
-			<Text style={styles.cardText}>
-				{
-				//cards && (cards.length >= 0) ? cards.length+' cards' : 'no cards'}
-			}
-			</Text>
-		</View>
-	)
-}
 
 /*
 * mapStateToProps recibiá las funciones exportadas

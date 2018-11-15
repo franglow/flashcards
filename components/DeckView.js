@@ -1,35 +1,17 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { getCardsMetaInfo } from '../utils/helpers'
+import { connect } from 'react-redux'
 
-
-// export default function MetricCard ({ deck }) {
-// export default function MetricCard ({ 'JavaScript' }) {
-// 	return (
-// 			<View style={styles.container}>
-// 				<Text style={styles.headerText}>
-// 					{getCardsMetaInfo('JavaScript').title}
-// 				</Text>
-// 			</View>
-// 	)
-// }
-
-export default class DeckView extends Component {
-	// Acá debería recibir por parametros el key para mostrar 
+class DeckView extends Component {
+	// Acá debería recibir por parametros el key para mostrar
 	// la flashcard. Algo asi como la linea siguiente.
 	// static navigationOptions = ({ navigation }) => { const { entryId } = navigation.state.params }
-	handlePress = () => {
-		alert('Me queres?')
-	}
-	handlePress1 = () => {
-		alert('Me queres?')
-	}
-	render() {
-		const metaInfo = getCardsMetaInfo()
 
+	render() {
+		console.log('DeckView render this.props',this.props)
 		return (
 			<View>
-				<Text>Deck View - {this.props.navigation.state.params.deckId}</Text>
+				<Text>Deck View </Text>
 			</View>
 		)
 		// return (
@@ -45,7 +27,7 @@ export default class DeckView extends Component {
 		// 		</TouchableOpacity>
 		// 		<TouchableOpacity style={styles.btnStart} onPress={styles.handlePress1}>
 		// 			<Text style={styles.btnTextStart}>Start Quiz</Text>
-		// 		</TouchableOpacity>				
+		// 		</TouchableOpacity>
 		// 	</View>
 		// )
 	}
@@ -58,12 +40,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 	},
+	row: {
+    // flexDirection: 'row',
+    // flex: 1,
+    // alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#d6d7da',
+    padding: 20
+	},
 	headerText: {
 		fontSize: 35,
     textAlign: 'center',
 	},
-	cardsText: {
+	cardText: {
 		fontSize: 20,
+    textAlign: 'center',
 	},
 	btn: {
 		backgroundColor: '#E53224',
@@ -94,3 +85,4 @@ const styles = StyleSheet.create({
 		color: '#000'
 	}
 })
+ export default connect()(DeckView)
