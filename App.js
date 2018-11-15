@@ -11,6 +11,7 @@ import AddCard from './components/AddCard'
 import DeckList from './components/DeckList'
 import DeckView from './components/DeckView'
 import AddDeck from './components/AddDeck'
+import QuizView from './components/QuizView'
 
 import { purple, white } from './utils/colors'
 
@@ -60,6 +61,24 @@ const MainNavigator = StackNavigator({
   },
   DeckView: {
     screen: DeckView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  QuizView: {
+    screen: QuizView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  AddCard: {
+    screen: AddCard,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {

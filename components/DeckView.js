@@ -3,33 +3,31 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
 class DeckView extends Component {
-	// Acá debería recibir por parametros el key para mostrar
-	// la flashcard. Algo asi como la linea siguiente.
-	// static navigationOptions = ({ navigation }) => { const { entryId } = navigation.state.params }
 
 	render() {
-		console.log('DeckView render this.props',this.props)
+		const { item } = this.props.navigation.state.params
+		console.log(
+			'DeckView render this.props',
+			this.props
+		)
 		return (
-			<View>
-				<Text>Deck View </Text>
+			<View style={styles.container}>
+				<View style={styles.row}>
+					<Text style={styles.headerText}>{item.title}</Text>
+					<Text style={styles.cardText}>{item.questions.length} cards</Text>
+				</View>
+				<TouchableOpacity onPress={() => this.props.navigation.navigate(
+						'AddCard',{item}
+				)}>
+					<Text>Add Card</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => this.props.navigation.navigate(
+						'QuizView',{item}
+				)}>
+					<Text>Start Quiz</Text>
+				</TouchableOpacity>
 			</View>
 		)
-		// return (
-		// 	<View style={styles.container}>
-		// 		<Text style={styles.headerText}>
-		// 			{getCardsMetaInfo('React').title}
-		// 		</Text>
-		// 		<Text style={styles.cardsText}>
-		// 			{getCardsMetaInfo('React').questions.length} cards
-		// 		</Text>
-		// 		<TouchableOpacity style={styles.btn} onPress={styles.handlePress}>
-		// 			<Text style={styles.btnText}>Add Card</Text>
-		// 		</TouchableOpacity>
-		// 		<TouchableOpacity style={styles.btnStart} onPress={styles.handlePress1}>
-		// 			<Text style={styles.btnTextStart}>Start Quiz</Text>
-		// 		</TouchableOpacity>
-		// 	</View>
-		// )
 	}
 }
 
@@ -41,19 +39,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 	},
 	row: {
-    // flexDirection: 'row',
-    // flex: 1,
-    // alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#d6d7da',
-    padding: 20
 	},
 	headerText: {
-		fontSize: 35,
+		fontSize: 55,
     textAlign: 'center',
 	},
 	cardText: {
-		fontSize: 20,
+		fontSize: 45,
     textAlign: 'center',
 	},
 	btn: {

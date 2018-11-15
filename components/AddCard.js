@@ -1,38 +1,118 @@
 import React, { Component } from 'react'
-import { View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native'
+import {
+	View,
+	Platform,
+	TouchableOpacity,
+	Text,
+	StyleSheet,
+	Button,
+	TextInput
+} from 'react-native'
+import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 import t from 'tcomb-form-native'
-import { white, purple } from '../utils/colors' 
+import { white, purple } from '../utils/colors'
 
-function SubmitBtn ({ onPress }) {
-	return (
-		<TouchableOpacity
-			style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
-			onPress={onPress}>
-			<Text style={styles.submitBtnText}>SUBMIT</Text>
+const Form = t.form.Form;
 
-		</TouchableOpacity>
-	)
+const Card = t.struct({
+	question: t.String,
+	answer: t.String
+})
+
+const options = {
+  fields: {
+    question: {
+      label: 'Add a new question',
+      error: 'Please add a question!'
+    },
+		answer: {
+			label: 'Add an answer',
+      error: 'Please add an answer!'
+		}
+  },
+	stylesheet: formStyles
 }
+
+
+
 
 class AddCard extends Component {
 
-	submit = () => {
-		// set state
-		// update redux
-		// Navigate to home
-		// save to 'DB'
-		// Clear local notification
-	}
+  clearForm = () => {
+    // clear content from all textbox
+    this.setState(() => ({}));
+  }
 
+  handleSubmit = () => {
+		// getting form value
+    const value = this._form.getValue() && this._form.getValue()
+    const { dispatch } = this.props
 
+    if (value) {
+console.log('AddCard handleSubmit value',value)
+      // // Update ReduxStore
+      // dispatch(addEntry({
+      //   decks: {
+      //     [value] : {
+      //       title: value,
+      //       questions: [{}]
+      //     }
+      //   }
+      // }))
+      // // Reset del state
+      // this.setState({
+      //   decks: {
+      //     [value] : {
+      //       title: value,
+      //       questions: [{}]
+      //     }
+      //   }
+      // })
+			// // Update AsyncStorage
+			// submitDeckTitle({value})
+
+			this.toHome()
+    }
+  }
+
+	toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({key: 'DeckView'}))
+  }
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>Add Card</Text>
-				<SubmitBtn onPress={this.submit} />
-			</View>
+        <Form
+          ref={c => this._form = c}
+          type={Card}
+          options={options}
+          value={this.state}
+        />
+        <Button
+          title='Submit'
+          onPress={this.handleSubmit}
+        />
+
+      </View>
 		)
 	}
+}
+const formStyles = {
+  ...Form.stylesheet,
+  controlLabel: {
+    normal: {
+      color: 'blue',
+      fontSize: 35,
+      marginBottom: 7,
+      fontWeight: '600'
+    },
+    error: {
+      color: 'red',
+      fontSize: 18,
+      marginBottom: 7,
+      fontWeight: '600'
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -67,4 +147,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AddCard
+// function mapStateToProps (entries) {
+function mapStateToProps (state) {
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProps)(AddCard)
