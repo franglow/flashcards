@@ -7,23 +7,16 @@ import {
 } from 'react-native'
 
 export default class ShowDecksOnList extends Component {
-  _onPress = () => {
-    console.log('ShowDecksList this.props :', this.props)
-    alert("ok!")
-  }
 
   render() {
+    const length = this.props.deck.questions.length
     return (
       <View style={styles.row}>
 				<Text style={styles.headerText}>{this.props.deck.title}</Text>
-				<Text style={styles.cardText}>{this.props.deck.questions.length} cards</Text>
+        <Text style={styles.cardText}>
+          {length > 1 ? `${length} cards` : `${length} card`} 
+        </Text>
 			</View>
-      // <View>
-      //   <TouchableOpacity onPress={this._onPress}>
-      //     <Text style={styles.item}>{this.props.deck.title}</Text>
-      //     <Text>{this.props.deck.questions.length} cards</Text>
-      //   </TouchableOpacity>
-      // </View>
     )
   }
 }
@@ -35,9 +28,6 @@ const styles = StyleSheet.create({
     height: 120,
   },
   row: {
-    // flexDirection: 'row',
-    // flex: 1,
-    // alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#d6d7da',
     padding: 20

@@ -9,12 +9,9 @@ import { AsyncStorage,
 				 TouchableOpacity,
 				 RefreshControl
 } from 'react-native'
-import { getCardsMetaInfo } from '../utils/helpers'
 import { recieveDecks } from '../actions'
 import { submitDeckTitle, getDecks } from '../utils/api'
 import ShowDecksOnList from './ShowDecksOnList'
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 class DeckList extends Component {
 
@@ -24,17 +21,9 @@ class DeckList extends Component {
 
   componentDidMount () {
 		const { entries, dispatch } = this.props
-// FIXME:
-		console.log('componentDidMount DeckList.js entries', entries)
-		console.log('componentDidMount DeckList.js this.props', this.props)
+
     getDecks()
     	.then((decks) => dispatch(recieveDecks(decks)))
-   //  this.props.navigation.addListener('willFocus',
-  		// (cosas) => {
-   //  		console.log('cosas en el addListener',cosas)
-			//   console.log('this.nextState', this.props.nextState)
-  	// 	}
-  	// )
   }
 
 	/*
@@ -76,12 +65,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
     padding: 22,
-    // backgroundColor: white
 	},
 	row: {
-    // flexDirection: 'row',
-    // flex: 1,
-    // alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#d6d7da',
     padding: 20
@@ -101,11 +86,6 @@ const styles = StyleSheet.create({
   }
 })
 
-
-/*
-* mapStateToProps recibiá las funciones exportadas
-*	desde ./reducers/index.js
-*/
 function mapStateToProps (entries) {
 console.log('DeckList.js mapStateToProps entries',entries)
   return {

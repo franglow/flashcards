@@ -29,10 +29,15 @@ const options = {
 }
 
 class AddDeck extends Component {
-
-  state = {
-    decks: null
-  }
+// FIXME:
+//cambiando el formato del state para que maneje el estado de las
+//cards
+  // state = {
+  //   decks: null
+  // }
+state = {
+	card: 0
+}
 
   clearForm = () => {
     // clear content from all textbox
@@ -56,12 +61,17 @@ class AddDeck extends Component {
       }))
       // Reset del state
       this.setState({
-        decks: {
-          [value] : {
-            title: value,
-            questions: [{}]
-          }
-        }
+				card : 0
+// FIXME:
+//acabo de reemplazar el state con la idea de que solo maneje
+//la card actual permitiendome navegarlas al momento
+//mostrar en QuizView
+        // decks: {
+        //   [value] : {
+        //     title: value,
+        //     questions: [{}]
+        //   }
+        // }
       })
 			// Update AsyncStorage
 			submitDeckTitle({value})

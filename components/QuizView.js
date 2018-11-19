@@ -1,20 +1,93 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 
 
 class QuizView extends Component {
-	// Acá debería recibir por parametros el key para mostrar
-	// la flashcard. Algo asi como la linea siguiente.
-	// static navigationOptions = ({ navigation }) => { const { entryId } = navigation.state.params }
+
+	state = {
+		card: 0,
+		questionString: 'question',
+		questionText: 'Answer',
+		score: 0
+	}
+
+	_onPress = ( index, length, score ) => {
+		if (score) {
+			const accumScore = ++this.state.score
+			this.setState(() => {
+				score: accumScore
+			})
+		}
+
+		if ((index + 1) > (length -1)) {
+			const { item } = this.props.navigation.state.params
+			alert("Your score is " + this.state.score + "!!!")
+			this.props.navigation.navigate(
+					'DeckView',{item}
+			)
+		} else {
+			this.setState(() => ({
+				card : index + 1,
+				questionString : 'question',
+				questionText: 'Answer'
+			}))
+		}
+	}
+
+	_switchToAnswer = () => {
+		if (this.state.questionString === 'question') {
+			this.setState(() => ({
+				questionString : 'answer',
+				questionText: 'Question'
+			}))
+		} else {
+			this.setState(() => ({
+				questionString : 'question',
+				questionText: 'Answer'
+			}))
+		}
+	}
+
+	static navigationOptions = ({navigation}) => {
+		const { item } = navigation.state.params
+		const quiz = 'Quiz'
+		return {
+			title: quiz
+		}
+	}
+
 	render () {
 		const { item } = this.props.navigation.state.params
-console.log('QuizView render item.',item.questions)
+		const length = item.questions.length
+		const index = this.state.card
+		const { questionText } = this.state
+
 	  return (
-	    <View>
-				<View style={styles.row}>					
-					<Text style={styles.headerText}>{item.questions[0].question}</Text>
-					<Text style={styles.cardText}>ver respuesta</Text>
+	    <View style={styles.container}>
+				<View style={styles.rowTop}>
+					<Text> {index + 1 }/{ length }</Text>
+				</View>
+				<View style={styles.row}>
+					<Text style={styles.headerText}>
+						{item.questions[index][this.state.questionString]}
+					</Text>
+					<TouchableOpacity onPress={() => { this._switchToAnswer() }
+				}>
+						<Text style={styles.linkText}>{questionText}</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.row}>
+					<TouchableOpacity style={styles.btnGreen} onPress={() => {
+							this._onPress(index,length,1)}
+					}>
+						<Text style={styles.btnText}>Correct</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.btnRed} onPress={() => {
+							this._onPress(index,length,0)
+						}}>
+						<Text style={styles.btnText}>Incorrect</Text>
+					</TouchableOpacity>
 				</View>
 	    </View>
 	  )
@@ -29,17 +102,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 	},
+	subHeaderSection: {
+		top: 0
+	},
+	rowTop : {
+		paddingTop: 0,
+		paddingBottom: 40
+	},
 	row: {
+		paddingBottom: 40
 	},
 	headerText: {
-		fontSize: 55,
-    textAlign: 'center',
-	},
-	cardText: {
 		fontSize: 45,
     textAlign: 'center',
 	},
-	btn: {
+	linkText: {
+		color: '#E53224',
+		fontSize: 15,
+    textAlign: 'center',
+	},
+	btnRed: {
 		backgroundColor: '#E53224',
 		borderColor: '#E53224',
 		borderWidth: 0.5,
@@ -49,6 +131,18 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 5,
+	},
+	btnGreen: {
+		backgroundColor: '#128401',
+		borderColor: '#128401',
+		borderWidth: 0.5,
+		padding: 10,
+		paddingLeft: 50,
+		paddingRight: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5,
+		marginBottom: 5
 	},
 	btnText: {
 		color: '#fff'

@@ -1,5 +1,6 @@
 export const RECIEVE_DECKS = 'RECIEVE_DECKS'
 export const ADD_DECK = 'ADD_DECK'
+export const ADD_CARD = 'ADD_CARD'
 
 export function recieveDecks ( decks ) {
 // export function recieveDecks () {
@@ -16,6 +17,15 @@ export function addEntry ( deck ) {
 console.log('action/index.js addEntry',deck)
 	return {
 		type: ADD_DECK,
+		deck,
+	}
+}
+
+export function addCard ( deck ) {
+//FIXME
+console.log('action/index.js addCard',deck)
+	return {
+		type: ADD_CARD,
 		deck,
 	}
 }

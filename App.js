@@ -13,7 +13,7 @@ import DeckView from './components/DeckView'
 import AddDeck from './components/AddDeck'
 import QuizView from './components/QuizView'
 
-import { purple, white } from './utils/colors'
+import { purple, white, black } from './utils/colors'
 
 
 const Tabs = TabNavigator({
@@ -40,10 +40,10 @@ const Tabs = TabNavigator({
     header: null
   },
   tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? purple : white,
+    activeTintColor: Platform.OS === 'ios' ? black : white,
     style: {
       height: 56,
-      backgroundColor: Platform.OS === 'ios' ? white : purple,
+      backgroundColor: Platform.OS === 'ios' ? white : black,
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -64,7 +64,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
-        backgroundColor: purple,
+        backgroundColor: black,
       }
     }
   },
@@ -73,7 +73,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
-        backgroundColor: purple,
+        backgroundColor: black,
       }
     }
   },
@@ -82,7 +82,7 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
-        backgroundColor: purple,
+        backgroundColor: black,
       }
     }
   }

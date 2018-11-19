@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import t from 'tcomb-form-native'
+import { addCard } from '../actions'
 import { white, purple } from '../utils/colors'
 
 const Form = t.form.Form;
@@ -39,6 +40,14 @@ const options = {
 
 class AddCard extends Component {
 
+	static navigationOptions = ({navigation}) => {
+		const { item } = navigation.state.params
+		const addCard = 'Add Card'
+		return {
+			title: addCard
+		}
+	}
+
   clearForm = () => {
     // clear content from all textbox
     this.setState(() => ({}));
@@ -46,13 +55,19 @@ class AddCard extends Component {
 
   handleSubmit = () => {
 		// getting form value
-    const value = this._form.getValue() && this._form.getValue()
-    const { dispatch } = this.props
+    const question = this._form.getValue() && this._form.getValue().question
+		const answer = this._form.getValue() && this._form.getValue().answer
+    const { dispatch, setCard } = this.props
+		const { item } = this.props.navigation.state.params
 
-    if (value) {
-console.log('AddCard handleSubmit value',value)
-      // // Update ReduxStore
-      // dispatch(addEntry({
+    if (question && answer) {
+			const title = item.title
+console.log('AssCard handleSubmit item.title', item.title)
+console.log('AddCard handleSubmit question',question)
+console.log('AddCard handleSubmit answer',answer)
+      // Update ReduxStore
+			setCard({title:item.title , question: question, answer: answer})
+      // dispatch(addCard({
       //   decks: {
       //     [value] : {
       //       title: value,
@@ -154,4 +169,23 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps)(AddCard)
+function mapDispatchToProps (dispatch) {
+	return {
+		setCard: (data) => dispatch(addCard({
+			decks: {
+				[data.title] : {
+					title: data.title,
+					questions: [{
+						question: data.question,
+						answer: data.answer
+					}]
+				}
+			}
+		}))
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AddCard)

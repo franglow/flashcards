@@ -1,11 +1,11 @@
-import { RECIEVE_DECKS, ADD_DECK } from '../actions'
+import { RECIEVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
 
 function entries (state = inicialState, action) {
 //FIXME
 console.log('entries en el reducer/index.js action',action)
 console.log('entries en el reducer/index.js action.type',action.type)
 console.log('entries en el reducer/index.js action.decks',action.decks)
-console.log('entries en el reducer/index.js state',state)
+// console.log('entries en el reducer/index.js action.deck.decks',action.deck.decks)
 
 	switch (action.type) {
 		case RECIEVE_DECKS:
@@ -22,6 +22,12 @@ console.log('entries en el reducer/index.js state',state)
 					...action.deck.decks
 					}
 			}
+		case ADD_CARD:
+			// let name = action.deck.decks
+			return {
+				// state[name].questions.push(name.questions)
+				...state.decks,
+			}
 		default :
 			return state
 	}
@@ -29,33 +35,25 @@ console.log('entries en el reducer/index.js state',state)
 
 const inicialState = {
 	decks : {
-	  Example: {
-	    title: 'Example',
+	  React: {
+	    title: 'React',
 	    questions: [
 	      {
-	        question: 'What is Example?',
-	        answer: 'A way to show how the hand come'
+	        question: 'What is React?',
+	        answer: 'A library for managing user interfaces'
 	      },
 	      {
-	        question: 'Where do you make new decks like this?',
-	        answer: 'Lets start tapping buttons!'
+	        question: 'Where do you make Ajax requests in React?',
+	        answer: 'The componentDidMount lifecycle event'
 	      }
 	    ]
 	  },
-		ExampleDos: {
-	    title: 'ExampleDos',
+		JavaScript: {
+	    title: 'JavaScript',
 	    questions: [
 	      {
-	        question: 'What is ExampleDos?',
-	        answer: 'A way to show how the hand come'
-	      },
-	      {
-	        question: 'Where do you make new decks like this?',
-	        answer: 'Lets start tapping buttons Dos : )!'
-	      },
-				{
-	        question: 'Where do you make new decks like this?',
-	        answer: 'Lets start tapping buttons Dos : )!'
+	        question: 'What is a closure?',
+	        answer: 'The combination of a function and the lexical environment within which that function was declared.'
 	      }
 	    ]
 	  }

@@ -4,28 +4,43 @@ import { connect } from 'react-redux'
 
 class DeckView extends Component {
 
+	state = {
+		card: 0
+	}
+
+	static navigationOptions = ({navigation}) => {
+		const { item } = navigation.state.params
+		const card = item.title
+		return {
+			title: card
+		}
+	}
+
 	render() {
 		const { item } = this.props.navigation.state.params
-		console.log(
-			'DeckView render this.props',
-			this.props
-		)
+		const length = item.questions.length
 		return (
 			<View style={styles.container}>
 				<View style={styles.row}>
 					<Text style={styles.headerText}>{item.title}</Text>
-					<Text style={styles.cardText}>{item.questions.length} cards</Text>
+					<Text style={styles.cardText}>
+						{length > 1 ? `${length} cards` : `${length} card`}
+					</Text>
 				</View>
-				<TouchableOpacity onPress={() => this.props.navigation.navigate(
-						'AddCard',{item}
-				)}>
-					<Text>Add Card</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => this.props.navigation.navigate(
-						'QuizView',{item}
-				)}>
-					<Text>Start Quiz</Text>
-				</TouchableOpacity>
+				<View style={styles.row}>
+					<TouchableOpacity style={styles.btnLight} onPress={() =>
+						this.props.navigation.navigate(
+							'AddCard',{item}
+					)}>
+						<Text style={styles.btnLightText}>Add Card</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.btnDark} onPress={() =>
+						this.props.navigation.navigate(
+							'QuizView',{item}
+					)}>
+						<Text style={styles.btnDarkText}>Start Quiz</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		)
 	}
@@ -39,18 +54,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 	},
 	row: {
+		padding: 40
 	},
 	headerText: {
-		fontSize: 55,
+		fontSize: 35,
     textAlign: 'center',
 	},
 	cardText: {
-		fontSize: 45,
+		fontSize: 25,
     textAlign: 'center',
 	},
-	btn: {
-		backgroundColor: '#E53224',
-		borderColor: '#E53224',
+	btnLight: {
+		backgroundColor: '#FFF',
+		borderColor: '#000',
+		borderWidth: 0.5,
+		padding: 10,
+		paddingLeft: 50,
+		paddingRight: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5,
+		marginBottom: 5
+	},
+	btnDark: {
+		backgroundColor: '#000',
+		borderColor: '#fff',
 		borderWidth: 0.5,
 		padding: 10,
 		paddingLeft: 50,
@@ -59,8 +87,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		borderRadius: 5,
 	},
-	btnText: {
+	btnDarkText: {
 		color: '#fff'
+	},
+	btnLightText: {
+		color: '#000'
 	},
 	btnStart: {
 		backgroundColor: '#fff',
