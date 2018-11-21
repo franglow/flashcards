@@ -55,7 +55,7 @@ state = {
         decks: {
           [value] : {
             title: value,
-            questions: [{}]
+            questions: []
           }
         }
       }))

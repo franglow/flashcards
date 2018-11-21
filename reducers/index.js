@@ -1,17 +1,24 @@
 import { RECIEVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
 
-function entries (state = inicialState, action) {
+function entries (state, action) {
 //FIXME
-console.log('entries en el reducer/index.js action',action)
-console.log('entries en el reducer/index.js action.type',action.type)
-console.log('entries en el reducer/index.js action.decks',action.decks)
-// console.log('entries en el reducer/index.js action.deck.decks',action.deck.decks)
+	console.log('entries en el reducer/index.js action',action)
+	console.log('entries en el reducer/index.js action.type',action.type)
+	console.log('entries en el reducer/index.js action.decks',action.decks)
+	console.log('entries en el reducer/index.js state',state)
 
 	switch (action.type) {
 		case RECIEVE_DECKS:
+			if (state) {
+				return {
+					decks: {
+						...state.decks,
+						...action.decks
+						}
+				}
+			}
 			return {
 				decks: {
-					...state.decks,
 					...action.decks
 					}
 			}
@@ -23,16 +30,20 @@ console.log('entries en el reducer/index.js action.decks',action.decks)
 					}
 			}
 		case ADD_CARD:
-			// let name = action.deck.decks
+			const { title, question, answer} = action.deck.data
+			state.decks[title].questions.push({question,answer})
 			return {
-				// state[name].questions.push(name.questions)
-				...state.decks,
+				decks : {
+					...state.decks,
+				}
 			}
 		default :
 			return state
 	}
 }
 
+// FIXME:
+//remove this const
 const inicialState = {
 	decks : {
 	  React: {

@@ -18,7 +18,9 @@ class DeckView extends Component {
 
 	render() {
 		const { item } = this.props.navigation.state.params
+console.log('DeckView render item',item);
 		const length = item.questions.length
+console.log('DeckView render length',length);
 		return (
 			<View style={styles.container}>
 				<View style={styles.row}>
@@ -34,10 +36,16 @@ class DeckView extends Component {
 					)}>
 						<Text style={styles.btnLightText}>Add Card</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.btnDark} onPress={() =>
-						this.props.navigation.navigate(
-							'QuizView',{item}
-					)}>
+					<TouchableOpacity style={styles.btnDark} onPress={() => {
+								if (length) {
+									return this.props.navigation.navigate(
+										'QuizView',{item})
+								} else {
+									return this.props.navigation.navigate(
+										'AddCard',{item})
+								}
+							}
+						}>
 						<Text style={styles.btnDarkText}>Start Quiz</Text>
 					</TouchableOpacity>
 				</View>

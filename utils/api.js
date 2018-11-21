@@ -4,22 +4,27 @@ import { getCardsMetaInfo } from './helpers'
 export const DECK_STORAGE_KEY = 'FlashCards:deck'
 
 export function submitDeckTitle ({ value }) {
-	let newDeckToAdd = {
+// FIXME:
+//Hacer esto en el metodo handleSubmit de AddDeck.js
+	let data = {
     [value] : {
       title: value,
-      questions: [{}]
+      questions: []
     }
  	}
- 	console.log('at API submitDeckTitle', newDeckToAdd)
-	return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(newDeckToAdd), () => {
+ 	console.log('at API submitDeckTitle', data)
+	return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(data), () => {
 			AsyncStorage.getItem('FlashCards:deck', (err, result) => {
-				console.log('API.js AsyncStorage.getItem',result) }) 
+				console.log('API.js AsyncStorage.getItem',result) })
 		})
 }
 
-export function submitCardToDeck ({ title, card}) {
-	return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
-	}))
+export function submitCardToDeck ({ data }) {
+console.log('api.js submitCardToDeck data', data)
+	return AsyncStorage.mergeItem('FlashCards:deck', data, () => {
+			AsyncStorage.getItem('FlashCards:deck', (err, result) => {
+				console.log('API.js submitCardToDeck getItem',result) })
+		})
 }
 
 export function getDeck (title) {

@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import t from 'tcomb-form-native'
+import { submitCardToDeck } from '../utils/api'
 import { addCard } from '../actions'
 import { white, purple } from '../utils/colors'
 
@@ -53,47 +54,33 @@ class AddCard extends Component {
     this.setState(() => ({}));
   }
 
+	_toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({key: 'DeckView'}))
+  }
+
   handleSubmit = () => {
-		// getting form value
+		// getting form values
     const question = this._form.getValue() && this._form.getValue().question
 		const answer = this._form.getValue() && this._form.getValue().answer
-    const { dispatch, setCard } = this.props
+    const { setCard } = this.props
 		const { item } = this.props.navigation.state.params
+		const { decks } = this.props.state
 
-    if (question && answer) {
-			const title = item.title
-console.log('AssCard handleSubmit item.title', item.title)
-console.log('AddCard handleSubmit question',question)
-console.log('AddCard handleSubmit answer',answer)
+		if (question && answer) {
       // Update ReduxStore
 			setCard({title:item.title , question: question, answer: answer})
-      // dispatch(addCard({
-      //   decks: {
-      //     [value] : {
-      //       title: value,
-      //       questions: [{}]
-      //     }
-      //   }
-      // }))
-      // // Reset del state
-      // this.setState({
-      //   decks: {
-      //     [value] : {
-      //       title: value,
-      //       questions: [{}]
-      //     }
-      //   }
-      // })
-			// // Update AsyncStorage
-			// submitDeckTitle({value})
 
-			this.toHome()
+			let data = {
+					[item.title] : decks[item.title]
+			}
+			data = JSON.stringify(data)
+			// Update AsyncStorage
+			submitCardToDeck({data})
+
+			this._toHome()
     }
   }
 
-	toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'DeckView'}))
-  }
 	render() {
 		return (
 			<View style={styles.container}>
@@ -171,17 +158,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
 	return {
-		setCard: (data) => dispatch(addCard({
-			decks: {
-				[data.title] : {
-					title: data.title,
-					questions: [{
-						question: data.question,
-						answer: data.answer
-					}]
-				}
-			}
-		}))
+		setCard: (data) => dispatch(addCard({data}))
 	}
 }
 

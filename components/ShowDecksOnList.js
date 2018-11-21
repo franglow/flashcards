@@ -12,9 +12,11 @@ export default class ShowDecksOnList extends Component {
     const length = this.props.deck.questions.length
     return (
       <View style={styles.row}>
-				<Text style={styles.headerText}>{this.props.deck.title}</Text>
+				<Text style={styles.headerText}>
+          {this.props.deck.title}
+        </Text>
         <Text style={styles.cardText}>
-          {length > 1 ? `${length} cards` : `${length} card`} 
+          {length > 1 ? `${length} cards` : `${length} card`}
         </Text>
 			</View>
     )

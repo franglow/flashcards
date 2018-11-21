@@ -9,6 +9,7 @@ import { AsyncStorage,
 				 TouchableOpacity,
 				 RefreshControl
 } from 'react-native'
+import { AppLoading} from 'expo'
 import { recieveDecks } from '../actions'
 import { submitDeckTitle, getDecks } from '../utils/api'
 import ShowDecksOnList from './ShowDecksOnList'
@@ -24,6 +25,9 @@ class DeckList extends Component {
 
     getDecks()
     	.then((decks) => dispatch(recieveDecks(decks)))
+			.then(({decks}) => {
+				console.log('dispatch something to show on empty list!!')
+			})
   }
 
 	/*
@@ -46,9 +50,13 @@ class DeckList extends Component {
 		</TouchableOpacity>
   )
 
+
 	render() {
 console.log('DeckList render this.props', this.props)
 		const { getDecks, entries } = this.props
+		if (!entries) {
+			return <AppLoading />
+		}
 		return (
 			<View style={styles.container}>
 	      <FlatList
