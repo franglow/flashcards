@@ -1,6 +1,6 @@
 import { RECIEVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
 
-function entries (state, action) {
+function entries (state = initialState, action) {
 	switch (action.type) {
 		case RECIEVE_DECKS:
 			if (state) {
@@ -37,3 +37,30 @@ function entries (state, action) {
 }
 
 export default entries
+
+const initialState = {
+	decks : {
+	  React: {
+	    title: 'React',
+	    questions: [
+	      {
+	        question: 'What is React?',
+	        answer: 'A library for managing user interfaces'
+	      },
+	      {
+	        question: 'Where do you make Ajax requests in React?',
+	        answer: 'The componentDidMount lifecycle event'
+	      }
+	    ]
+	  },
+		JavaScript: {
+	    title: 'JavaScript',
+	    questions: [
+	      {
+	        question: 'What is a closure?',
+	        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+	      }
+	    ]
+	  }
+	}
+}

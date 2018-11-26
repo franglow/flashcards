@@ -25,8 +25,6 @@ class DeckList extends Component {
     getDecks()
     	.then((decks) => dispatch(recieveDecks(decks)))
 			.then(({decks}) => {
-				// FIXME:
-				console.log('anything to dispatch on empty list?')
 			})
   }
 
