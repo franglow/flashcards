@@ -10,6 +10,10 @@ import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
 import { NavigationActions } from 'react-navigation'
 import { submitDeckTitle, getDecks } from '../utils/api'
+import {
+	clearLocalNotification,
+	setLocalNotification
+} from '../utils/helpers'
 import { addEntry, recieveDecks } from '../actions'
 
 const Form = t.form.Form;
@@ -29,15 +33,10 @@ const options = {
 }
 
 class AddDeck extends Component {
-// FIXME:
-//cambiando el formato del state para que maneje el estado de las
-//cards
-  // state = {
-  //   decks: null
-  // }
-state = {
-	card: 0
-}
+
+	state = {
+		card: 0
+	}
 
   clearForm = () => {
     // clear content from all textbox
@@ -59,22 +58,13 @@ state = {
           }
         }
       }))
-      // Reset del state
-      this.setState({
-				card : 0
-// FIXME:
-//acabo de reemplazar el state con la idea de que solo maneje
-//la card actual permitiendome navegarlas al momento
-//mostrar en QuizView
-        // decks: {
-        //   [value] : {
-        //     title: value,
-        //     questions: [{}]
-        //   }
-        // }
-      })
+
 			// Update AsyncStorage
 			submitDeckTitle({value})
+
+			//clear Notification
+			clearLocalNotification()
+				.then(setLocalNotification)
 
 			this.toHome()
     }
@@ -85,10 +75,6 @@ state = {
   }
 
 	render() {
-// FIXME:
-		console.log('state at addDeck',this.state)
-		console.log('Props at addDeck',this.props)
-		console.log('Props.state at addDeck',this.props.state)
 		return (
       <View style={styles.container}>
         <Form
@@ -101,13 +87,11 @@ state = {
           title='Submit'
           onPress={this.handleSubmit}
         />
-
       </View>
 		)
 	}
 }
 
-// function mapStateToProps (entries) {
 function mapStateToProps (state) {
   return {
     state

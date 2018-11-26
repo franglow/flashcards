@@ -12,12 +12,13 @@ import DeckList from './components/DeckList'
 import DeckView from './components/DeckView'
 import AddDeck from './components/AddDeck'
 import QuizView from './components/QuizView'
-
+import { setLocalNotification } from './utils/helpers'
 import { purple, white, black } from './utils/colors'
 
-
+/*
+* React Navigation v1 !!!
+*/
 const Tabs = TabNavigator({
-  /* Component Deks */
   DeckList: {
     screen: DeckList,
     navigationOptions: {
@@ -25,8 +26,6 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
   },
-  /* --- Component Deks End   */
-  /* Component AddEntry  */
   AddDeck: {
     screen: AddDeck,
     navigationOptions: {
@@ -34,7 +33,6 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
   },
-  /* --- Component AddEntry End    */
   },{
   navigationOptions: {
     header: null
@@ -55,6 +53,9 @@ const Tabs = TabNavigator({
   }
 })
 
+/*
+* React Navigation v1 !!!
+*/
 const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
@@ -97,6 +98,10 @@ function SimpleStatusBar ({backgroundColor, ...props}) {
 }
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>

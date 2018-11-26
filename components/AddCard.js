@@ -36,9 +36,6 @@ const options = {
 	stylesheet: formStyles
 }
 
-
-
-
 class AddCard extends Component {
 
 	static navigationOptions = ({navigation}) => {
@@ -149,7 +146,6 @@ const styles = StyleSheet.create({
   },
 })
 
-// function mapStateToProps (entries) {
 function mapStateToProps (state) {
   return {
     state

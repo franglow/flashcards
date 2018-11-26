@@ -15,7 +15,6 @@ import { submitDeckTitle, getDecks } from '../utils/api'
 import ShowDecksOnList from './ShowDecksOnList'
 
 class DeckList extends Component {
-
 	state = {
 		decks: null
 	}
@@ -26,22 +25,13 @@ class DeckList extends Component {
     getDecks()
     	.then((decks) => dispatch(recieveDecks(decks)))
 			.then(({decks}) => {
-				console.log('dispatch something to show on empty list!!')
+				// FIXME:
+				console.log('anything to dispatch on empty list?')
 			})
   }
 
-	/*
-	* El componente FlatList necesita una key, para actualizar el contenido, esta
-	* es una forma piola de pasarle el item actual y el index de los cuales
-	* dinamicamente se ira generando cada una de las key para cada item de la
-	* lista.
-	*/
 	_keyExtractor = (item, index) => item.title
 
-	/*
-	* a traves de item recibira cada uno de los valores del array pasado
-	* a traves de la property data del componente FlatList.
-	*/
 	_getItem = ({item}) => (
 		<TouchableOpacity onPress={() => this.props.navigation.navigate(
 				'DeckView',{item}
@@ -50,9 +40,7 @@ class DeckList extends Component {
 		</TouchableOpacity>
   )
 
-
 	render() {
-console.log('DeckList render this.props', this.props)
 		const { getDecks, entries } = this.props
 		if (!entries) {
 			return <AppLoading />
@@ -95,7 +83,6 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps (entries) {
-console.log('DeckList.js mapStateToProps entries',entries)
   return {
     entries
   }

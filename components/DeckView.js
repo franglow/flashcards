@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 
 class DeckView extends Component {
 
@@ -12,15 +13,13 @@ class DeckView extends Component {
 		const { item } = navigation.state.params
 		const card = item.title
 		return {
-			title: card
+			title: card,
 		}
 	}
 
 	render() {
 		const { item } = this.props.navigation.state.params
-console.log('DeckView render item',item);
 		const length = item.questions.length
-console.log('DeckView render length',length);
 		return (
 			<View style={styles.container}>
 				<View style={styles.row}>
