@@ -24,11 +24,19 @@ function entries (state = initialState, action) {
 					}
 			}
 		case ADD_CARD:
-			const { title, question, answer} = action.deck.data
-			state.decks[title].questions.push({question,answer})
 			return {
 				decks : {
 					...state.decks,
+					[action.deck.data.title]: {
+						title: state.decks[action.deck.data.title].title,
+						questions: [
+							...state.decks[action.deck.data.title].questions,
+							{
+								question: question,
+								answer: answer
+							},
+						],
+					},
 				}
 			}
 		default :

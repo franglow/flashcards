@@ -16,12 +16,10 @@ import { addCard } from '../actions'
 import { white, purple } from '../utils/colors'
 
 const Form = t.form.Form;
-
 const Card = t.struct({
 	question: t.String,
 	answer: t.String
 })
-
 const options = {
   fields: {
     question: {
@@ -37,44 +35,24 @@ const options = {
 }
 
 class AddCard extends Component {
-
-	static navigationOptions = ({navigation}) => {
-		const { item } = navigation.state.params
-		const addCard = 'Add Card'
-		return {
-			title: addCard
-		}
-	}
-
-  clearForm = () => {
-    // clear content from all textbox
-    this.setState(() => ({}));
-  }
-
-	_toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'DeckView'}))
-  }
-
-  handleSubmit = () => {
+	static navigationOptions = () => ({ title: 'Add Card' })
+  _handleSubmit = () => {
 		// getting form values
     const question = this._form.getValue() && this._form.getValue().question
 		const answer = this._form.getValue() && this._form.getValue().answer
+
     const { setCard } = this.props
 		const { item } = this.props.navigation.state.params
+		const { title } = this.props
 		const { decks } = this.props.state
 
 		if (question && answer) {
       // Update ReduxStore
-			setCard({title:item.title , question: question, answer: answer})
-
-			let data = {
-					[item.title] : decks[item.title]
-			}
-			data = JSON.stringify(data)
+			setCard({title:title , question: question, answer: answer})
+			data = JSON.stringify({ [title] : decks[title] })
 			// Update AsyncStorage
 			submitCardToDeck({data})
-
-			this._toHome()
+			this.props.navigation.goBack()
     }
   }
 
@@ -89,13 +67,27 @@ class AddCard extends Component {
         />
         <Button
           title='Submit'
-          onPress={this.handleSubmit}
+          onPress={this._handleSubmit}
         />
-
       </View>
 		)
 	}
 }
+
+const mapStateToProps = (state,ownProps) => ({
+		state,
+    title: ownProps.navigation.state.params.item.item.title,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	setCard: (data) => dispatch(addCard({data}))
+})
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AddCard)
+
 const formStyles = {
   ...Form.stylesheet,
   controlLabel: {
@@ -145,20 +137,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
-
-function mapStateToProps (state) {
-  return {
-    state
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-	return {
-		setCard: (data) => dispatch(addCard({data}))
-	}
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(AddCard)

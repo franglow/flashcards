@@ -4,26 +4,19 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 
 class DeckView extends Component {
-
 	state = {
 		card: 0
 	}
-
-	static navigationOptions = ({navigation}) => {
-		const { item } = navigation.state.params
-		const card = item.title
-		return {
-			title: card,
-		}
-	}
+	static navigationOptions = ({navigation}) => (
+		{ title: navigation.state.params.item.title }
+	)
 
 	render() {
-		const { item } = this.props.navigation.state.params
-		const length = item.questions.length
+		const { item,title,length } = this.props
 		return (
 			<View style={styles.container}>
 				<View style={styles.row}>
-					<Text style={styles.headerText}>{item.title}</Text>
+					<Text style={styles.headerText}>{title}</Text>
 					<Text style={styles.cardText}>
 						{length > 1 ? `${length} cards` : `${length} card`}
 					</Text>
@@ -52,6 +45,14 @@ class DeckView extends Component {
 		)
 	}
 }
+
+const mapStateToProps = (state, ownProps) => ({
+		item: ownProps.navigation.state.params,
+		title: ownProps.navigation.state.params.item.title,
+		length: ownProps.navigation.state.params.item.questions.length,
+})
+
+export default connect(mapStateToProps)(DeckView)
 
 const styles = StyleSheet.create({
 	container: {
@@ -115,4 +116,3 @@ const styles = StyleSheet.create({
 		color: '#000'
 	}
 })
- export default connect()(DeckView)

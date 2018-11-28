@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet,
-  TouchableOpacity
+  StyleSheet
 } from 'react-native'
 
 export default class ShowDecksOnList extends Component {

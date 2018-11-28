@@ -20,15 +20,12 @@ class DeckList extends Component {
 	}
 
   componentDidMount () {
-		const { entries, dispatch } = this.props
-
+		const { dispatch } = this.props
     getDecks()
     	.then((decks) => dispatch(recieveDecks(decks)))
 			.then(({decks}) => {
 			})
   }
-
-	_keyExtractor = (item, index) => item.title
 
 	_getItem = ({item}) => (
 		<TouchableOpacity onPress={() => this.props.navigation.navigate(
@@ -48,12 +45,16 @@ class DeckList extends Component {
 	      <FlatList
 	        data={Object.values(entries.decks)}
 	        renderItem={this._getItem}
-					keyExtractor={this._keyExtractor}
+					keyExtractor={(item) => item.title}
 	      />
 	    </View>
 		)
 	}
 }
+
+const mapStateToProps = (entries) => ({entries})
+
+export default connect(mapStateToProps)(DeckList)
 
 const styles = StyleSheet.create({
 	container: {
@@ -79,11 +80,3 @@ const styles = StyleSheet.create({
     height: 120,
   }
 })
-
-function mapStateToProps (entries) {
-  return {
-    entries
-  }
-}
-
-export default connect(mapStateToProps)(DeckList)

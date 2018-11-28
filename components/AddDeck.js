@@ -17,11 +17,9 @@ import {
 import { addEntry, recieveDecks } from '../actions'
 
 const Form = t.form.Form;
-
 const Deck = t.struct({
 	deckTitle: t.String,
 })
-
 const options = {
   fields: {
     deckTitle: {
@@ -34,44 +32,32 @@ const options = {
 
 class AddDeck extends Component {
 
-	state = {
-		card: 0
-	}
-
-  clearForm = () => {
-    // clear content from all textbox
-    this.setState(() => ({}));
-  }
-
-  handleSubmit = () => {
+  _handleSubmit = () => {
 		// getting form value
     const value = this._form.getValue() && this._form.getValue().deckTitle
-    const { dispatch } = this.props
-
+    const { dispatch, setDeck } = this.props
     if (value) {
-      // Update ReduxStore
-      dispatch(addEntry({
+      // Update ReduxStore and return new value added.
+			let item = setDeck({
         decks: {
           [value] : {
             title: value,
             questions: []
           }
         }
-      }))
-
+      })
 			// Update AsyncStorage
 			submitDeckTitle({value})
 
-			//clear Notification
+			//Clear App Notifications
 			clearLocalNotification()
 				.then(setLocalNotification)
 
-			this.toHome()
+			// Navigato to the just added new deck.
+			item = item.deck.decks[value]
+			// this.props.navigation.navigate('DeckView',{item})
+			this.props.navigation.goBack()
     }
-  }
-
-	toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'AddDeck'}))
   }
 
 	render() {
@@ -81,22 +67,26 @@ class AddDeck extends Component {
           ref={c => this._form = c}
           type={Deck}
           options={options}
-          value={this.state}
         />
         <Button
           title='Submit'
-          onPress={this.handleSubmit}
+          onPress={this._handleSubmit}
         />
       </View>
 		)
 	}
 }
 
-function mapStateToProps (state) {
-  return {
-    state
-  }
-}
+const mapStateToProps = (state) => ({state})
+
+const mapDispatchToProps = (dispatch) => ({
+	setDeck: (deck) => dispatch(addEntry(deck))
+})
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AddDeck)
 
 const formStyles = {
   ...Form.stylesheet,
@@ -131,5 +121,3 @@ const styles = StyleSheet.create({
     color: '#34495e',
   },
 });
-
-export default connect(mapStateToProps)(AddDeck)

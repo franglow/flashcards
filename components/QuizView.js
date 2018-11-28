@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 
-
 class QuizView extends Component {
-
 	state = {
 		card: 0,
-		questionString: 'question',
-		questionText: 'Answer',
+		mainText: 'question',
+		linkText: 'Answer',
 		score: 0
 	}
 
-	_onPress = ( index, length, score ) => {
+	_scoreItOnPress = ( index, length, score ) => {
 		if (score) {
 			const accumScore = ++this.state.score
 			this.setState(() => {
@@ -20,80 +18,78 @@ class QuizView extends Component {
 			})
 		}
 
-		if ((index + 1) > (length -1)) {
-			const { item } = this.props.navigation.state.params
+		//check for last question
+		if ((index + 1) > (length - 1)) {
 			alert("Your score is " + this.state.score + "!!!")
-			this.props.navigation.navigate(
-					'DeckView',{item}
-			)
+// FIXME: add a popup or component here!
+			this.props.navigation.goBack()
 		} else {
 			this.setState(() => ({
 				card : index + 1,
-				questionString : 'question',
-				questionText: 'Answer'
+				mainText : 'question',
+				linkText: 'Answer'
 			}))
 		}
 	}
 
-	_switchToAnswer = () => {
-		if (this.state.questionString === 'question') {
+	_toggleToAnswer = () => {
+		if (this.state.mainText === 'question') {
 			this.setState(() => ({
-				questionString : 'answer',
-				questionText: 'Question'
+				mainText : 'answer',
+				linkText: 'Question'
 			}))
 		} else {
 			this.setState(() => ({
-				questionString : 'question',
-				questionText: 'Answer'
+				mainText : 'question',
+				linkText: 'Answer'
 			}))
 		}
 	}
 
-	static navigationOptions = ({navigation}) => {
-		const { item } = navigation.state.params
-		const quiz = 'Quiz'
-		return {
-			title: quiz
-		}
-	}
+	static navigationOptions = () => ({title: 'quiz'})
 
 	render () {
-		const { item } = this.props.navigation.state.params
-		const length = item.questions.length
 		const index = this.state.card
-		const { questionText } = this.state
+		const { linkText } = this.state
+		const { item, questions } = this.props
 
 	  return (
 	    <View style={styles.container}>
 				<View style={styles.rowTop}>
-					<Text> {index + 1 }/{ length }</Text>
+					<Text> {index + 1 }/{ questions.length }</Text>
 				</View>
 				<View style={styles.row}>
 					<Text style={styles.headerText}>
-						{item.questions[index][this.state.questionString]}
+						{questions[index][this.state.mainText]}
 					</Text>
-					<TouchableOpacity onPress={() => { this._switchToAnswer() }
+					<TouchableOpacity onPress={() => { this._toggleToAnswer() }
 				}>
-						<Text style={styles.linkText}>{questionText}</Text>
+						<Text style={styles.linkText}>{linkText}</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.row}>
 					<TouchableOpacity style={styles.btnGreen} onPress={() => {
-							this._onPress(index,length,1)}
+							this._scoreItOnPress(index,questions.length,1)}
 					}>
 						<Text style={styles.btnText}>Correct</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.btnRed} onPress={() => {
-							this._onPress(index,length,0)
+							this._scoreItOnPress(index,questions.length,0)
 						}}>
 						<Text style={styles.btnText}>Incorrect</Text>
 					</TouchableOpacity>
 				</View>
 	    </View>
 	  )
-
 	}
 }
+
+const mapStateToProps = (state, ownProps) => ({
+	item: ownProps.navigation.state.params.item,
+	questions: ownProps.navigation.state.params.item.item.questions,
+})
+
+export default connect(mapStateToProps)(QuizView)
 
 const styles = StyleSheet.create({
 	container: {
@@ -162,5 +158,3 @@ const styles = StyleSheet.create({
 		color: '#000'
 	}
 })
-
-export default connect()(QuizView)
