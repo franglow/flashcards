@@ -20,9 +20,11 @@ class QuizView extends Component {
 
 		//check for last question
 		if ((index + 1) > (length - 1)) {
-			alert("Your score is " + this.state.score + "!!!")
+			const { item } = this.props
+			this.props.navigation.navigate('ResultsView',{item})
+			// alert("Your score is " + this.state.score + "!!!")
 // FIXME: add a popup or component here!
-			this.props.navigation.goBack()
+			// this.props.navigation.goBack()
 		} else {
 			this.setState(() => ({
 				card : index + 1,
@@ -46,7 +48,10 @@ class QuizView extends Component {
 		}
 	}
 
-	static navigationOptions = () => ({title: 'quiz'})
+	static navigationOptions = (initialRouteName) => ({
+		title: 'quiz',
+		initialRouteName: 'DeckView',
+	})
 
 	render () {
 		const index = this.state.card
@@ -84,10 +89,13 @@ class QuizView extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => ({
-	item: ownProps.navigation.state.params.item,
-	questions: ownProps.navigation.state.params.item.item.questions,
-})
+const mapStateToProps = (state, ownProps) => {
+	return {
+		state,
+		item: ownProps.navigation.state.params.item,
+		questions: ownProps.navigation.state.params.item.questions,
+	}
+}
 
 export default connect(mapStateToProps)(QuizView)
 

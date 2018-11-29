@@ -1,18 +1,23 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
 
 class DeckView extends Component {
 	state = {
 		card: 0
 	}
 	static navigationOptions = ({navigation}) => (
-		{ title: navigation.state.params.item.title }
+		{
+			title: navigation.state.params.item.title,
+			initialRouteName: 'Tabs'
+		}
 	)
 
 	render() {
-		const { item,title,length } = this.props
+		const { title } = this.props.navigation.state.params.item
+		const { state } = this.props
+		const length = this.props.state.decks[title].questions.length
+		const item = state.decks[title]
 		return (
 			<View style={styles.container}>
 				<View style={styles.row}>
@@ -46,11 +51,7 @@ class DeckView extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => ({
-		item: ownProps.navigation.state.params,
-		title: ownProps.navigation.state.params.item.title,
-		length: ownProps.navigation.state.params.item.questions.length,
-})
+const mapStateToProps = (state, ownProps) => ({state})
 
 export default connect(mapStateToProps)(DeckView)
 

@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import t from 'tcomb-form-native'
-import { submitCardToDeck } from '../utils/api'
+import { submitCard } from '../utils/api'
 import { addCard } from '../actions'
 import { white, purple } from '../utils/colors'
 
@@ -43,15 +43,16 @@ class AddCard extends Component {
 
     const { setCard } = this.props
 		const { item } = this.props.navigation.state.params
-		const { title } = this.props
+		const { title } = this.props.navigation.state.params.item
 		const { decks } = this.props.state
 
 		if (question && answer) {
       // Update ReduxStore
 			setCard({title:title , question: question, answer: answer})
-			data = JSON.stringify({ [title] : decks[title] })
+
 			// Update AsyncStorage
-			submitCardToDeck({data})
+			data = JSON.stringify({title:title , question: question, answer: answer})
+			submitCard({data})
 			this.props.navigation.goBack()
     }
   }
@@ -63,7 +64,6 @@ class AddCard extends Component {
           ref={c => this._form = c}
           type={Card}
           options={options}
-          value={this.state}
         />
         <Button
           title='Submit'
@@ -74,10 +74,7 @@ class AddCard extends Component {
 	}
 }
 
-const mapStateToProps = (state,ownProps) => ({
-		state,
-    title: ownProps.navigation.state.params.item.item.title,
-})
+const mapStateToProps = (state,ownProps) => ({state})
 
 const mapDispatchToProps = (dispatch) => ({
 	setCard: (data) => dispatch(addCard({data}))

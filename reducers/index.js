@@ -1,6 +1,6 @@
 import { RECIEVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
 
-function entries (state = initialState, action) {
+const entries = (state = initialState, action) => {
 	switch (action.type) {
 		case RECIEVE_DECKS:
 			if (state) {
@@ -23,7 +23,7 @@ function entries (state = initialState, action) {
 					...action.deck.decks
 					}
 			}
-		case ADD_CARD:
+		case ADD_CARD:	
 			return {
 				decks : {
 					...state.decks,
@@ -32,8 +32,8 @@ function entries (state = initialState, action) {
 						questions: [
 							...state.decks[action.deck.data.title].questions,
 							{
-								question: question,
-								answer: answer
+								question: action.deck.data.question,
+								answer: action.deck.data.answer,
 							},
 						],
 					},
@@ -44,7 +44,7 @@ function entries (state = initialState, action) {
 	}
 }
 
-export default entries
+export default entries;
 
 const initialState = {
 	decks : {

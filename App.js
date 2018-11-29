@@ -12,6 +12,7 @@ import DeckList from './components/DeckList'
 import DeckView from './components/DeckView'
 import AddDeck from './components/AddDeck'
 import QuizView from './components/QuizView'
+import ResultsView from './components/ResultsView'
 import { setLocalNotification } from './utils/helpers'
 import { purple, white, black } from './utils/colors'
 
@@ -86,7 +87,18 @@ const MainNavigator = StackNavigator({
         backgroundColor: black,
       }
     }
+  },
+  ResultsView: {
+    screen: ResultsView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: black,
+      }
+    }
   }
+},{
+  // initialRouteName: 'DeckView',
 })
 
 function SimpleStatusBar ({backgroundColor, ...props}) {

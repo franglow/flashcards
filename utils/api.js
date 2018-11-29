@@ -12,17 +12,42 @@ export function submitDeckTitle ({ value }) {
  	}
 	return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(data), () => {
 			AsyncStorage.getItem('FlashCards:deck', (err, result) => {
-				// console.log('api.js getItem OK',result) 
+				// console.log('api.js getItem OK',result)
 			})
 		})
 }
 
-export function submitCardToDeck ({ data }) {
-	return AsyncStorage.mergeItem('FlashCards:deck', data, () => {
-			AsyncStorage.getItem('FlashCards:deck', (err, result) => {
-				// console.log('api.js getItem OK',result)
-			})
+export function submitCard ({ data }) {
+	data = JSON.parse(data)
+	let card = {
+    [data.title] : {
+      title: data.title,
+      questions: [
+				{
+					question: data.question,
+					answer: data.answer,
+				},
+			],
+    },
+ 	}
+	AsyncStorage.getItem('FlashCards:deck', (err, result) => {}).then( (result) => {
+		result = JSON.parse(result)
+		result[data.title].questions.push({
+			question:data.question,
+			answer:data.answer
 		})
+		let card = {
+			[data.title] : {
+				title: data.title,
+				questions: result[data.title].questions,
+			}
+		}
+		return AsyncStorage.mergeItem('FlashCards:deck', JSON.stringify(card), () => {
+				AsyncStorage.getItem('FlashCards:deck', (err, result) => {
+					// console.log('api.js getItem OK',result)
+				})
+			})
+	})
 }
 
 export function getDecks () {
