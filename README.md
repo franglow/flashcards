@@ -42,7 +42,7 @@ Not implemented yet.
 
 ## License and Contributing
 
-This project is licensed under MIT. The original course material and specification is from [Udacity.com](https://eu.udacity.com/course/react-nanodegree--nd019).
+This project is licensed under MIT. Original course material and specification from [Udacity.com](https://eu.udacity.com/course/react-nanodegree--nd019).
 
 
 ## Authors
